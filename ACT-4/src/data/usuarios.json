@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "nombre": "miyo",
+        "edad": 12,
+        "rol": "ADMIN",
+        "estado": "INACTIVO"
+    },
+    {
+        "id": 12,
+        "nombre": "fher",
+        "edad": 0,
+        "rol": "ADMIN",
+        "estado": "ACTIVO"
+    },
+    {
+        "id": 1,
+        "nombre": "fher",
+        "edad": 0,
+        "rol": "ADMIN",
+        "estado": "ACTIVO"
+    },
+    {
+        "id": 34,
+        "nombre": "naryum",
+        "edad": 0,
+        "rol": "USUARIO",
+        "estado": "ACTIVO"
+    }
+]
