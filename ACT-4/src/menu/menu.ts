@@ -1,15 +1,13 @@
 import { rl } from "../utils/readline";
 import { UsuarioService } from "../services/usuarioService";
-import { Rol } from "../models/rol";
-import { Estado } from "../models/estado";
 
-const service=new UsuarioService();
+const service = new UsuarioService();
 
-export async function menu(){
+export async function menu() {
 
-    let opcion=0;
+    let opcion = 0;
 
-    do{
+    do {
 
         console.log("\n===== CRUD USUARIOS =====");
         console.log("1. Agregar");
@@ -17,30 +15,25 @@ export async function menu(){
         console.log("3. Buscar");
         console.log("4. Actualizar");
         console.log("5. Eliminar");
-        console.log("6. Salir");
+        console.log("6. Importar usuarios desde API");
+        console.log("7. Salir");
 
-        opcion=Number(await rl.question("Opción: "));
+        opcion = Number(await rl.question("Opción: "));
 
-        switch(opcion){
+        switch (opcion) {
 
             case 1:
 
-                const id=Number(await rl.question("ID: "));
-                const nombre=await rl.question("Nombre: ");
-                const correo=await rl.question("Correo: ");
-
-                const rolTexto=await rl.question("Rol (ADMIN/USUARIO): ");
-
-                const estadoTexto=await rl.question("Estado (ACTIVO/INACTIVO): ");
+                const id = Number(await rl.question("ID: "));
+                const nombre = await rl.question("Nombre: ");
+                const email = await rl.question("Email: ");
+                const telefono = await rl.question("Telefono: ");
 
                 await service.agregar({
-
                     id,
                     nombre,
-                    edad: 0,
-                    rol:rolTexto.toUpperCase() as Rol,
-                    estado:estadoTexto.toUpperCase() as Estado
-
+                    email,
+                    telefono
                 });
 
             break;
@@ -53,7 +46,7 @@ export async function menu(){
 
             case 3:
 
-                const buscar=Number(await rl.question("ID: "));
+                const buscar = Number(await rl.question("ID: "));
 
                 console.log(await service.buscar(buscar));
 
@@ -61,40 +54,56 @@ export async function menu(){
 
             case 4:
 
-                const idActualizar=Number(await rl.question("ID: "));
-                const nombreNuevo=await rl.question("Nombre: ");
-                const correoNuevo=await rl.question("Correo: ");
+                const idActualizar = Number(
+                    await rl.question("ID: ")
+                );
 
-                const rolNuevo=await rl.question("Rol: ");
-                const estadoNuevo=await rl.question("Estado: ");
+                const nombreNuevo = await rl.question("Nombre: ");
+                const emailNuevo = await rl.question("Email: ");
+                const telefonoNuevo = await rl.question("Telefono: ");
 
-                const actualizado=await service.actualizar({
+                const actualizado = await service.actualizar({
 
-                    id:idActualizar,
-                    nombre:nombreNuevo,
-                    edad:Number(await rl.question("Edad: ")),
-                    rol:rolNuevo.toUpperCase() as Rol,
-                    estado:estadoNuevo.toUpperCase() as Estado
+                    id: idActualizar,
+                    nombre: nombreNuevo,
+                    email: emailNuevo,
+                    telefono: telefonoNuevo
 
                 });
 
-                console.log(actualizado?"Actualizado":"No existe");
+                console.log(
+                    actualizado
+                        ? "Actualizado"
+                        : "No existe"
+                );
 
             break;
 
             case 5:
 
-                const eliminar=Number(await rl.question("ID: "));
+                const eliminar = Number(
+                    await rl.question("ID: ")
+                );
 
-                const eliminado=await service.eliminar(eliminar);
+                const eliminado = await service.eliminar(eliminar);
 
-                console.log(eliminado?"Eliminado":"No encontrado");
+                console.log(
+                    eliminado
+                        ? "Eliminado"
+                        : "No encontrado"
+                );
+
+            break;
+
+            case 6:
+
+                await service.importarDesdeAPI();
 
             break;
 
         }
 
-    }while(opcion!=6);
+    } while (opcion !== 7);
 
     rl.close();
 
